@@ -1,14 +1,12 @@
-const http = require('http');
+var http = require('http');
+var fs = require('fs');
 
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+var server = http.createServer(function(req, res){
+  console.log('request was made: ' + req.url);
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  var myReadStream = fs.createReadStream(__dirname + '/index.html', 'utf8');
+  myReadStream.pipe(res);
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+server.listen(3000, '127.0.0.1');
+console.log('yo yo yo we are live on Port 3000 sheesh');
